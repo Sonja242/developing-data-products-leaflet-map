@@ -1,0 +1,123 @@
+---
+title: "Amsterdam: A Data Scientist's City Guide"
+author: "Sonja Sahebzad"
+date: "September 15, 2026"
+output:
+  html_document:
+    self_contained: true
+    code_folding: hide
+    theme: flatly
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(leaflet)
+```
+
+<style>
+body {
+  font-family: "Segoe UI", Calibri, Arial, sans-serif;
+  color: #1f2937;
+}
+h1, h2 { color: #123b65; }
+.subtitle {
+  padding: 14px 18px;
+  margin: 18px 0;
+  background: #eef6fc;
+  border-left: 5px solid #2171b5;
+  border-radius: 4px;
+}
+.leaflet-container { border: 1px solid #b8c8d8; border-radius: 7px; }
+</style>
+
+<div class="subtitle">
+This interactive map presents a small selection of places where learning, culture, and green space meet in Amsterdam. Select a marker to read about the location, switch the base map, or use the layer control to focus on one theme.
+</div>
+
+## Interactive map
+
+```{r amsterdam-map, fig.width=11, out.width="100%"}
+places <- data.frame(
+  name = c(
+    "Amsterdam Public Library (OBA)", "NEMO Science Museum",
+    "University of Amsterdam", "Rijksmuseum", "Van Gogh Museum",
+    "A'DAM Lookout", "Vondelpark", "ARTIS"
+  ),
+  category = c(
+    "Learning & Science", "Learning & Science", "Learning & Science",
+    "Culture", "Culture", "Culture", "Green Amsterdam", "Green Amsterdam"
+  ),
+  latitude = c(52.3758, 52.3741, 52.3680, 52.3600, 52.3584, 52.3838, 52.3579, 52.3660),
+  longitude = c(4.9083, 4.9123, 4.8903, 4.8852, 4.8811, 4.9023, 4.8686, 4.9165),
+  description = c(
+    "A modern public library with study areas and broad city views.",
+    "A hands-on science museum in Renzo Piano's waterfront building.",
+    "A major research university in the historic centre of Amsterdam.",
+    "The national museum of Dutch art and history.",
+    "A museum dedicated to the work and life of Vincent van Gogh.",
+    "A panoramic viewpoint across the IJ from Amsterdam Centraal.",
+    "Amsterdam's best-known urban park and a calm place to recharge.",
+    "The city's historic zoo, botanical setting, and science centre."
+  ),
+  stringsAsFactors = FALSE
+)
+
+group_colours <- c(
+  "Learning & Science" = "#08519c",
+  "Culture" = "#3182bd",
+  "Green Amsterdam" = "#31a354"
+)
+
+city_map <- leaflet(options = leafletOptions(minZoom = 11)) |>
+  addProviderTiles(providers$CartoDB.Positron, group = "Light map") |>
+  addProviderTiles(providers$OpenStreetMap.Mapnik, group = "Street map") |>
+  setView(lng = 4.8952, lat = 52.3702, zoom = 13)
+
+for (theme_name in names(group_colours)) {
+  selected <- places[places$category == theme_name, ]
+  popup_text <- paste0(
+    "<div style='font-family:Segoe UI,Arial;min-width:210px'>",
+    "<strong style='color:#123b65;font-size:15px'>", selected$name, "</strong>",
+    "<br><span style='color:", group_colours[[theme_name]], ";font-weight:600'>",
+    selected$category, "</span><br><br>", selected$description, "</div>"
+  )
+
+  city_map <- city_map |>
+    addCircleMarkers(
+      data = selected,
+      lng = ~longitude,
+      lat = ~latitude,
+      radius = 8,
+      color = "white",
+      weight = 2,
+      fillColor = group_colours[[theme_name]],
+      fillOpacity = 0.9,
+      popup = popup_text,
+      label = ~name,
+      group = theme_name,
+      labelOptions = labelOptions(
+        direction = "auto",
+        style = list("font-family" = "Segoe UI, Arial", "font-weight" = "600")
+      )
+    )
+}
+
+city_map |>
+  addLegend(
+    position = "bottomright",
+    colors = unname(group_colours),
+    labels = names(group_colours),
+    title = "Place type",
+    opacity = 0.9
+  ) |>
+  addLayersControl(
+    baseGroups = c("Light map", "Street map"),
+    overlayGroups = names(group_colours),
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+## About this map
+
+The map was created in R with the **leaflet** package. It uses open map tiles and a small curated dataset of Amsterdam locations. Hovering over a marker reveals its name; selecting it opens a short description. The layer control lets the reader compare themes without losing the geographic context.
