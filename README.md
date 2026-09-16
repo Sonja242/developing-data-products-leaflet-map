@@ -7,3 +7,7 @@ This repository contains Sonja Sahebzad's peer-graded assignment for the Develop
 
 The webpage includes the creation date and an interactive Leaflet map of selected learning, cultural, and green locations in Amsterdam.
 
+## Live webpage
+
+View the interactive map: https://sonja242.github.io/developing-data-products-leaflet-map/
+
