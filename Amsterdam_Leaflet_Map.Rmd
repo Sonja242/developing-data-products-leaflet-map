@@ -70,7 +70,7 @@ group_colours <- c(
 )
 
 city_map <- leaflet(options = leafletOptions(minZoom = 11)) |>
-  addProviderTiles(providers$CartoDB.Positron, group = "Light map") |>
+  addProviderTiles(providers$OpenStreetMap.HOT, group = "Humanitarian map") |>
   addProviderTiles(providers$OpenStreetMap.Mapnik, group = "Street map") |>
   setView(lng = 4.8952, lat = 52.3702, zoom = 13)
 
@@ -112,7 +112,7 @@ city_map |>
     opacity = 0.9
   ) |>
   addLayersControl(
-    baseGroups = c("Light map", "Street map"),
+    baseGroups = c("Humanitarian map", "Street map"),
     overlayGroups = names(group_colours),
     options = layersControlOptions(collapsed = FALSE)
   )
