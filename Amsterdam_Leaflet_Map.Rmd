@@ -19,16 +19,27 @@ library(leaflet)
 body {
   font-family: "Segoe UI", Calibri, Arial, sans-serif;
   color: #1f2937;
+  line-height: 1.6;
 }
-h1, h2 { color: #123b65; }
+h1, h2 { color: #123b65; font-weight: 650; }
 .subtitle {
-  padding: 14px 18px;
+  padding: 16px 20px;
   margin: 18px 0;
-  background: #eef6fc;
+  background: linear-gradient(135deg, #eef6fc 0%, #f8fbfe 100%);
   border-left: 5px solid #2171b5;
-  border-radius: 4px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(18, 59, 101, 0.08);
 }
-.leaflet-container { border: 1px solid #b8c8d8; border-radius: 7px; }
+.leaflet-container {
+  border: 1px solid #a9bfd3;
+  border-radius: 9px;
+  box-shadow: 0 5px 18px rgba(18, 59, 101, 0.16);
+}
+.leaflet-control-layers, .leaflet-control-minimap {
+  border-radius: 6px !important;
+  box-shadow: 0 2px 8px rgba(18, 59, 101, 0.16) !important;
+}
+.leaflet-popup-content-wrapper { border-radius: 7px; }
 </style>
 
 <div class="subtitle">
@@ -98,6 +109,11 @@ for (theme_name in names(group_colours)) {
       popup = popup_text,
       label = ~name,
       group = theme_name,
+      clusterOptions = markerClusterOptions(
+        showCoverageOnHover = FALSE,
+        spiderfyOnMaxZoom = TRUE,
+        removeOutsideVisibleBounds = TRUE
+      ),
       labelOptions = labelOptions(
         direction = "auto",
         style = list("font-family" = "Segoe UI, Arial", "font-weight" = "600")
@@ -106,6 +122,17 @@ for (theme_name in names(group_colours)) {
 }
 
 city_map |>
+  addMiniMap(
+    tiles = providers$CartoDB.Positron,
+    position = "bottomleft",
+    width = 145,
+    height = 105,
+    toggleDisplay = TRUE
+  ) |>
+  addScaleBar(
+    position = "bottomleft",
+    options = scaleBarOptions(metric = TRUE, imperial = FALSE)
+  ) |>
   addLegend(
     position = "bottomright",
     colors = unname(group_colours),
@@ -122,6 +149,6 @@ city_map |>
 
 ## About this map
 
-The map was created in R with the **leaflet** package. It uses open map tiles and a small curated dataset of Amsterdam locations. Hovering over a marker reveals its name; selecting it opens a short description. The layer control lets the reader compare themes without losing the geographic context.
+The map was created in R with the **leaflet** package. It uses open map tiles and a small curated dataset of Amsterdam locations. Hovering over a marker reveals its name; selecting it opens a short description. Nearby locations form marker clusters when the reader zooms out. The layer control, overview map, and metric scale make the different themes and their geographic context easy to explore.
 
 
