@@ -43,7 +43,7 @@ h1, h2 { color: #123b65; font-weight: 650; }
 </style>
 
 <div class="subtitle">
-This interactive map presents a small selection of places where learning, culture, and green space meet in Amsterdam. Select a marker to read about the location, switch the base map, or use the layer control to focus on one theme.
+This interactive map presents a curated selection of places where learning, culture, and green space meet in Amsterdam. Select a marker to read about the location, switch the base map, or use the layer control to focus on one theme.
 </div>
 
 **Created on:** September 16, 2026
@@ -54,24 +54,52 @@ This interactive map presents a small selection of places where learning, cultur
 places <- data.frame(
   name = c(
     "Amsterdam Public Library (OBA)", "NEMO Science Museum",
-    "University of Amsterdam", "Rijksmuseum", "Van Gogh Museum",
-    "A'DAM Lookout", "Vondelpark", "ARTIS"
+    "University of Amsterdam", "Vrije Universiteit Amsterdam",
+    "Amsterdam Science Park", "Micropia",
+    "Rijksmuseum", "Van Gogh Museum", "A'DAM Lookout",
+    "Anne Frank House", "EYE Filmmuseum", "Royal Concertgebouw",
+    "Rembrandt House Museum", "National Maritime Museum",
+    "Vondelpark", "ARTIS", "Oosterpark", "Westerpark",
+    "Amsterdamse Bos", "Hortus Botanicus Amsterdam"
   ),
   category = c(
-    "Learning & Science", "Learning & Science", "Learning & Science",
-    "Culture", "Culture", "Culture", "Green Amsterdam", "Green Amsterdam"
+    rep("Learning & Science", 6),
+    rep("Culture", 8),
+    rep("Green Amsterdam", 6)
   ),
-  latitude = c(52.3758, 52.3741, 52.3680, 52.3600, 52.3584, 52.3838, 52.3579, 52.3660),
-  longitude = c(4.9083, 4.9123, 4.8903, 4.8852, 4.8811, 4.9023, 4.8686, 4.9165),
+  latitude = c(
+    52.3758, 52.3741, 52.3680, 52.3346, 52.3546, 52.3668,
+    52.3600, 52.3584, 52.3838, 52.3752, 52.3840, 52.3563,
+    52.3694, 52.3718, 52.3579, 52.3660, 52.3601, 52.3868,
+    52.3105, 52.3660
+  ),
+  longitude = c(
+    4.9083, 4.9123, 4.8903, 4.8658, 4.9555, 4.9139,
+    4.8852, 4.8811, 4.9023, 4.8840, 4.9005, 4.8790,
+    4.9012, 4.9145, 4.8686, 4.9165, 4.9208, 4.8774,
+    4.8292, 4.9077
+  ),
   description = c(
     "A modern public library with study areas and broad city views.",
     "A hands-on science museum in Renzo Piano's waterfront building.",
     "A major research university in the historic centre of Amsterdam.",
+    "A research university with a green campus in Amsterdam-Zuid.",
+    "A major hub for scientific research, education, and innovation.",
+    "A museum where visitors discover the world of microbes.",
     "The national museum of Dutch art and history.",
     "A museum dedicated to the work and life of Vincent van Gogh.",
     "A panoramic viewpoint across the IJ from Amsterdam Centraal.",
+    "The historic canal house where Anne Frank wrote her diary.",
+    "A striking waterfront museum devoted to film and visual culture.",
+    "Amsterdam's celebrated concert hall for classical music.",
+    "The former home and studio of painter Rembrandt van Rijn.",
+    "Maritime history presented in a monumental former naval storehouse.",
     "Amsterdam's best-known urban park and a calm place to recharge.",
-    "The city's historic zoo, botanical setting, and science centre."
+    "The city's historic zoo, botanical setting, and science centre.",
+    "A spacious nineteenth-century park in Amsterdam-Oost.",
+    "A lively park and cultural district around the Westergasfabriek.",
+    "A vast woodland landscape for walking, cycling, and recreation.",
+    "A historic botanical garden with tropical glasshouses and rare plants."
   ),
   stringsAsFactors = FALSE
 )
@@ -82,10 +110,10 @@ group_colours <- c(
   "Green Amsterdam" = "#31a354"
 )
 
-city_map <- leaflet(options = leafletOptions(minZoom = 11)) |>
+city_map <- leaflet(options = leafletOptions(minZoom = 10)) |>
   addProviderTiles(providers$CartoDB.Positron, group = "Light map") |>
   addProviderTiles(providers$OpenStreetMap.Mapnik, group = "Street map") |>
-  setView(lng = 4.8952, lat = 52.3702, zoom = 13)
+  setView(lng = 4.8952, lat = 52.3645, zoom = 12)
 
 for (theme_name in names(group_colours)) {
   selected <- places[places$category == theme_name, ]
@@ -149,6 +177,6 @@ city_map |>
 
 ## About this map
 
-The map was created in R with the **leaflet** package. It uses open map tiles and a small curated dataset of Amsterdam locations. Hovering over a marker reveals its name; selecting it opens a short description. Nearby locations form marker clusters when the reader zooms out. The layer control, overview map, and metric scale make the different themes and their geographic context easy to explore.
+The map was created in R with the **leaflet** package. It uses open map tiles and a curated dataset of twenty Amsterdam locations. Hovering over a marker reveals its name; selecting it opens a short description. Nearby locations form marker clusters when the reader zooms out. The layer control, overview map, and metric scale make the different themes and their geographic context easy to explore.
 
 
