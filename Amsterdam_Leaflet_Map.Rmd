@@ -43,7 +43,7 @@ h1, h2 { color: #123b65; font-weight: 650; }
 </style>
 
 <div class="subtitle">
-This interactive map presents a curated selection of places where learning, culture, and green space meet in Amsterdam. Select a marker to read about the location, switch the base map, or use the layer control to focus on one theme.
+This interactive map presents a curated selection of places where learning, culture, and green space meet in Amsterdam. Select a marker to read about the location, use the layer control to focus on one theme, or zoom out to see location clusters.
 </div>
 
 **Created on:** September 16, 2026
@@ -111,8 +111,7 @@ group_colours <- c(
 )
 
 city_map <- leaflet(options = leafletOptions(minZoom = 10)) |>
-  addProviderTiles(providers$CartoDB.Positron, group = "Light map") |>
-  addProviderTiles(providers$OpenStreetMap.Mapnik, group = "Street map") |>
+  addProviderTiles(providers$OpenStreetMap.Mapnik, group = "OpenStreetMap") |>
   setView(lng = 4.8952, lat = 52.3645, zoom = 12)
 
 for (theme_name in names(group_colours)) {
@@ -151,7 +150,7 @@ for (theme_name in names(group_colours)) {
 
 city_map |>
   addMiniMap(
-    tiles = providers$CartoDB.Positron,
+    tiles = providers$OpenStreetMap.Mapnik,
     position = "bottomleft",
     width = 145,
     height = 105,
@@ -169,7 +168,7 @@ city_map |>
     opacity = 0.9
   ) |>
   addLayersControl(
-    baseGroups = c("Light map", "Street map"),
+    baseGroups = "OpenStreetMap",
     overlayGroups = names(group_colours),
     options = layersControlOptions(collapsed = FALSE)
   )
