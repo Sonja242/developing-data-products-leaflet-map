@@ -1,7 +1,7 @@
 ---
 title: "Amsterdam: A Data Scientist's City Guide"
 author: "Sonja Sahebzad"
-date: "September 15, 2026"
+date: "September 16, 2026"
 output:
   html_document:
     self_contained: true
@@ -121,3 +121,4 @@ city_map |>
 ## About this map
 
 The map was created in R with the **leaflet** package. It uses open map tiles and a small curated dataset of Amsterdam locations. Hovering over a marker reveals its name; selecting it opens a short description. The layer control lets the reader compare themes without losing the geographic context.
+
