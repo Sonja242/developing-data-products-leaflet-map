@@ -11,3 +11,8 @@ The webpage includes the creation date and an interactive Leaflet map of selecte
 
 View the interactive map: https://sonja242.github.io/developing-data-products-leaflet-map/
 
+
+## RPubs version
+
+View the published R Markdown document: https://rpubs.com/Sonja_Janssen/amsterdam-data-science-city-guide
+
