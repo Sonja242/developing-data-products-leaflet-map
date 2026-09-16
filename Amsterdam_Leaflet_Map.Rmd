@@ -1,6 +1,6 @@
 ---
 title: "Amsterdam: A Data Scientist's City Guide"
-author: "Sonja Sahebzad"
+author: "Author: Sonja Sahebzad"
 date: "September 16, 2026"
 output:
   html_document:
@@ -34,6 +34,8 @@ h1, h2 { color: #123b65; }
 <div class="subtitle">
 This interactive map presents a small selection of places where learning, culture, and green space meet in Amsterdam. Select a marker to read about the location, switch the base map, or use the layer control to focus on one theme.
 </div>
+
+**Created on:** September 16, 2026
 
 ## Interactive map
 
@@ -121,4 +123,5 @@ city_map |>
 ## About this map
 
 The map was created in R with the **leaflet** package. It uses open map tiles and a small curated dataset of Amsterdam locations. Hovering over a marker reveals its name; selecting it opens a short description. The layer control lets the reader compare themes without losing the geographic context.
+
 
